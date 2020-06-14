@@ -54,49 +54,51 @@ function getTasks() {
 
 // Add task
 function addTask(e) {
-  if (inputTask.value === "") {
-    // alert("test");
+  if (inputTask.value !== "") {
+    // Create li
+    const li = document.createElement("li");
+    // Add class
+    li.className = "collection-item";
+    // Create text node and append li
+    li.appendChild(document.createTextNode(inputTask.value));
+
+    // Create link element
+    const link = document.createElement("a");
+    // Add class
+    link.className = "delete-item secondary-content";
+    // Add icon
+    link.innerHTML = '<i class="fa fa-remove"></i>';
+
+    // Append link to li
+    li.appendChild(link);
+
+    // Append li to ul
+    listTask.appendChild(li);
+
+    // Store task in LS
+    storeTaskInLocalStorage(inputTask.value);
+
+    // Clear input tasks
+    inputTask.value = "";
+  } else {
+    alert("The task can't be empty ");
   }
-
-  // Create li
-  const li = document.createElement("li");
-  // Add class
-  li.className = "collection-item";
-  // Create text node and append li
-  li.appendChild(document.createTextNode(inputTask.value));
-
-  // Create link element
-  const link = document.createElement("a");
-  // Add class
-  link.className = "delete-item secondary-content";
-  // Add icon
-  link.innerHTML = '<i class="fa fa-remove"></i>';
-
-  // Append link to li
-  li.appendChild(link);
-
-  // Append li to ul
-  listTask.appendChild(li);
-
-  // Store task in LS
-  storeTaskInLocalStorage(inputTask.value);
-
-  // Clear input tasks
-  inputTask.value = "";
 
   e.preventDefault();
 }
 
 // Store task
 function storeTaskInLocalStorage(task) {
-  let tasks;
-  if (localStorage.getItem("tasks") === null) {
-    tasks = [];
-  } else {
-    tasks = JSON.parse(localStorage.getItem("tasks"));
+  if (task !== "") {
+    let tasks;
+    if (localStorage.getItem("tasks") === null) {
+      tasks = [];
+    } else {
+      tasks = JSON.parse(localStorage.getItem("tasks"));
+    }
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
-  tasks.push(task);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 // Remove task
